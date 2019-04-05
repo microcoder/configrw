@@ -5,6 +5,22 @@ import re
 import io
 
 
+def get_last_wspace_index(string: str):
+    """
+        This is accessory function, which searching last index of whitespace
+        in a string beginning from first character of string
+    """
+
+    index = 0
+
+    for i in string:
+        if not i.isspace():
+            break
+        index += 1
+
+    return index
+
+
 class ConfigSection():
 
     DEFAULT_OPT_SEPARATOR = ' = '
@@ -50,21 +66,6 @@ class ConfigSection():
 
     def __repr__(self):
         return str(self._items)
-
-    def _get_last_wspace_index(self, string: str):
-        """
-            This is accessory function, which searching last index of whitespace
-            in a string beginning from first character of string
-        """
-
-        index = 0
-
-        for i in string:
-            if not i.isspace():
-                break
-            index += 1
-
-        return index
 
     def add_item(self, item: Union[str, Dict[str, Any]], position: Optional[int] = None) -> None:
         """Adding a item into the section.
@@ -193,7 +194,7 @@ class ConfigSection():
                     for value in item['value']:
                         str_value = str(value)
                         if len(str_value.lstrip()) > 0:  # if value not empty
-                            ws_index = self._get_last_wspace_index(str_value)
+                            ws_index = get_last_wspace_index(str_value)
                             len_default_indent = len(default_indent)
 
                             if ws_index < len_default_indent:
