@@ -1,8 +1,4 @@
 # ConfigRW
-ConfigRW - this is module
-
-* Максимально сохраняет форматирование исходного файла (отступы, пробелы, комментарии, etc)
-* 
 
 ## Quick start
 
@@ -90,28 +86,4 @@ this is option
         ext2
         ext3
         ext4
-```
-
-## Detail examples
-
-### Get non-section
-```python
-section = config[None]
-```
-
-### Set or add new value:
-```python
-section['option1'] = 100  # or section.set_option('option2', 100)
-```
-
-```python
-print(section)
-```
-
-```python
-['# This is comment', {'key': 'this is option', 'separator': ' = ', 'value': 'this is value'}, {'key': 'second option', 'separator': '  = ', 'value': '-100'}, {'key': 'option1', 'separator': ' = ', 'value': 100}]
-```
-
-```python
-print(section.to_text())
 ```
