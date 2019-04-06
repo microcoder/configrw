@@ -5,22 +5,6 @@ import re
 import io
 
 
-def get_last_wspace_index(string: str):
-    """
-        This is accessory function, which searching last index of whitespace
-        in a string beginning from first character of string
-    """
-
-    index = 0
-
-    for i in string:
-        if not i.isspace():
-            break
-        index += 1
-
-    return index
-
-
 class ConfigSection():
 
     DEFAULT_OPT_SEPARATOR = ' = '
@@ -186,26 +170,27 @@ class ConfigSection():
                 if isinstance(item['value'], list):
                     yield text + ''
 
-                    # default indent computed by first value of list values:
+                    # default_indent = first_value_indent or key indent + 4 whitespaces:
                     first_value = str(item['value'][0])
-                    default_indent = first_value[:len(first_value) - len(first_value.lstrip())] or ' ' * 4
+                    len_fv_indent = len(first_value) - len(first_value.lstrip())
+                    default_indent = first_value[:len_fv_indent] or ' ' * (abs(len(item['key'].lstrip()) - len(item['key'])) + 4)
                     # print(f'default_indent "{default_indent}"')
 
                     for value in item['value']:
-                        str_value = str(value)
-                        if len(str_value.lstrip()) > 0:  # if value not empty
-                            ws_index = get_last_wspace_index(str_value)
+                        value = str(value)
+                        if len(value.lstrip()) > 0:  # if value not empty
+                            len_current_indent = abs(len(value.lstrip()) - len(value))
                             len_default_indent = len(default_indent)
 
-                            if ws_index < len_default_indent:
-                                yield default_indent + str_value
-                            elif ws_index > len_default_indent:
-                                yield default_indent + str_value[len(default_indent):]
+                            if len_current_indent < len_default_indent:
+                                yield default_indent + value
+                            elif len_current_indent > len_default_indent:
+                                yield default_indent + value[len_default_indent:]
                             else:
-                                yield str_value
+                                yield value
 
                         else:
-                            yield str_value
+                            yield value
 
                     continue
 
