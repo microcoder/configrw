@@ -413,9 +413,9 @@ class Config():
     def to_text(self):
 
         for line in self._none_section.to_text():
-            yield line + '\n'
+            yield line
 
         for section_name, section in self._sections.items():
-            yield f'[{section_name}]{section._inline_comment}\n'
+            yield f'[{section_name}]{section._inline_comment}'
             for line in section.to_text():
-                yield line + '\n'
+                yield line
