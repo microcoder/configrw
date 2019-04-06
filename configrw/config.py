@@ -91,7 +91,7 @@ class ConfigSection():
         if value is None:
             separator = None
         elif isinstance(value, list):
-            if len(value) == 0:  # if this multivalue option
+            if len(value) == 0:  # if this multiple values
                 value = None
                 separator = None
 
@@ -306,7 +306,7 @@ class Config():
     def _load(self, fp):
 
         current_section: ConfigSection = self._none_section
-        current_option: Optional[Dict[str, Any]] = None     # Needed for multivalue options
+        current_option: Optional[Dict[str, Any]] = None     # Needed for multiple values
 
         for line in fp:
 
