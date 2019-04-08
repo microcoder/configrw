@@ -10,11 +10,11 @@ class ConfigSection():
     DEFAULT_OPT_SEPARATOR = ' = '
 
     def __init__(self,
-                 inline_comment: Optional[str] = None,
+                 inline_text: Optional[str] = None,
                  default_opt_separator: str = DEFAULT_OPT_SEPARATOR,
                  convert_values: bool = True
                  ):
-        self._inline_comment: Optional[str] = inline_comment
+        self._inline_text: Optional[str] = inline_text
         self._items: list = []
         self.DEFAULT_OPT_SEPARATOR = default_opt_separator
         self._allowed_types_value = (str, type(None), int, float, list)
@@ -98,9 +98,10 @@ class ConfigSection():
         # Searching exists option
         for n, item in enumerate(self._items):
             if isinstance(item, dict) and item['key'].strip() == key.strip():
+                item['key'] = key
                 item['separator'] = separator
                 item['value'] = value
-                if position is not None:    # moveing position
+                if position is not None:    # moving position
                     del self._items[n]
                     self._items.insert(position, item)
                 return item
@@ -287,9 +288,9 @@ class Config():
 
         raise KeyError(f'Section "{name}" not exists')
 
-    def add_section(self, name, comment=None) -> ConfigSection:
+    def add_section(self, name, inline_text=None) -> ConfigSection:
 
-        self._sections[name] = ConfigSection(comment)
+        self._sections[name] = ConfigSection(inline_text)
 
         return self._sections[name]
 
@@ -416,6 +417,6 @@ class Config():
             yield line
 
         for section_name, section in self._sections.items():
-            yield f"[{section_name}]{section._inline_comment or ''}"
+            yield f"[{section_name}]{section._inline_text or ''}"
             for line in section.to_text():
                 yield line
