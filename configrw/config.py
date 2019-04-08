@@ -51,6 +51,9 @@ class ConfigSection():
 
         raise StopIteration
 
+    def __len__(self):
+        return len(self._items)
+
     def __str__(self):
         return str(self._items)
 
