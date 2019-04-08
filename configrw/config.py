@@ -51,14 +51,14 @@ class ConfigSection():
     def __repr__(self):
         return str(self._items)
 
-    def add_item(self, item: Union[str, Dict[str, Any]], position: Optional[int] = None) -> None:
+    def add_item(self, item: Union[str, Dict[str, Any]], pos: Optional[int] = None) -> None:
         """Adding a item into the section.
 
-            `position` = Number position of item. If not specified, it is added to the end of the section.
+            `pos` = Number position of item. If not specified, it is added to the end of the section.
         """
 
-        if position is not None:
-            self._items.insert(position, item)
+        if pos is not None:
+            self._items.insert(pos, item)
             return
 
         self._items.append(item)
@@ -81,39 +81,39 @@ class ConfigSection():
 
     def set_option(self, key: str,
                    value: Optional[Union[str, int, float, list]] = None,
-                   separator: Optional[str] = DEFAULT_OPT_SEPARATOR,
-                   position: Optional[int] = None) -> Dict[str, Any]:
+                   sep: Optional[str] = DEFAULT_OPT_SEPARATOR,
+                   pos: Optional[int] = None) -> Dict[str, Any]:
         """Adding a new option or setting new value of existing option. Returning option"""
 
         if type(value) not in self._allowed_types_value:
             raise ValueError(f'Value of option must be a type of: {self._allowed_types_value}')
 
         if value is None:
-            separator = None
+            sep = None
         elif isinstance(value, list):
             if len(value) == 0:  # if this multiple values
                 value = None
-                separator = None
+                sep = None
 
         # Searching exists option
         for n, item in enumerate(self._items):
             if isinstance(item, dict) and item['key'].strip() == key.strip():
                 item['key'] = key
-                item['separator'] = separator
+                item['sep'] = sep
                 item['value'] = value
-                if position is not None:    # moving position
+                if pos is not None:    # moving position
                     del self._items[n]
-                    self._items.insert(position, item)
+                    self._items.insert(pos, item)
                 return item
 
         # Setting a new option
         new_option = {
             'key': key,              # saving key without applying strip()
-            'separator': separator,
+            'sep': sep,
             'value': value
         }
 
-        self.add_item(new_option, position)
+        self.add_item(new_option, pos)
         return new_option
 
     def remove_option(self, key: str) -> bool:
@@ -161,8 +161,8 @@ class ConfigSection():
             if isinstance(item, dict):
                 text = str(item['key'])
 
-                if item['separator'] is not None:
-                    text += str(item['separator'])
+                if item['sep'] is not None:
+                    text += str(item['sep'])
 
                 if item['value'] is None:
                     yield text
@@ -204,7 +204,7 @@ class ConfigSection():
 class Config():
 
     REGEXP_COMMENT = r"""
-        (?P<comment>\s*(?:(?P<sep>{separator})).*$)
+        (?P<comment>\s*(?:(?P<sep>{sep})).*$)
         """
 
     REGEXP_SECTION = r"""
@@ -219,7 +219,7 @@ class Config():
     REGEXP_OPTION = r"""
         (?P<key>\s*[^\s]+.*?)
         (?:
-            (?P<sep>[ \t]*({separator})[ \t]*)
+            (?P<sep>[ \t]*({sep})[ \t]*)
             (?P<value>.*)
         )?$
         """
@@ -233,9 +233,9 @@ class Config():
         regexp_comment_sep = '|'.join(re.escape(d) for d in comment_sep)
 
         # Compiled regular expression for matching sections
-        self._regexp_comment = re.compile(self.REGEXP_COMMENT.format(separator=regexp_comment_sep), re.VERBOSE)
+        self._regexp_comment = re.compile(self.REGEXP_COMMENT.format(sep=regexp_comment_sep), re.VERBOSE)
         self._regexp_section = re.compile(self.REGEXP_SECTION, re.VERBOSE)
-        self._regexp_option = re.compile(self.REGEXP_OPTION.format(separator=regexp_option_sep), re.VERBOSE)
+        self._regexp_option = re.compile(self.REGEXP_OPTION.format(sep=regexp_option_sep), re.VERBOSE)
         # print('compiled _regexp_option:', self._regexp_option.pattern, sep='\n')
 
         self._remove_extra_lines = remove_extra_lines
