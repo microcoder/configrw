@@ -20,14 +20,20 @@ class ConfigSection():
         self._allowed_types_value = (str, type(None), int, float, list)
         self._convert_values = convert_values
 
-    def __getitem__(self, key: str) -> Any:
-        return self.get_value(key)
+    def __getitem__(self, key: Union[str, int]) -> Any:
+        if isinstance(key, str):
+            return self.get_value(key)
+        return self._items[key]
 
     def __setitem__(self, key: str, value: Any):
         return self.set_option(key, value)
 
-    def __delitem__(self, key: str) -> bool:
-        return self.remove_option(key)
+    def __delitem__(self, key: Union[str, int]) -> None:
+        if isinstance(key, str):
+            self.remove_option(key)
+            return
+
+        del self._items[key]
 
     def __iter__(self):
         self.n = 0
