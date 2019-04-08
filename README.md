@@ -3,7 +3,28 @@
 
     * Максимально сохраняет форматирование исходного файла (отступы, пробелы, комментарии, etc)
 
-# Quick start
+# Manual
+
+  - [Quick start](#quick-start)
+    - [Access to non-section area](#access-to-non-section-area)
+    - [Access to section area](#access-to-section-area)
+  - [Load config](#load-config)
+  - [Management of sections](#management-of-sections)
+    - [Checking if has a section](#checking-if-has-a-section)
+    - [Add new section](#add-new-section)
+    - [Get an section](#get-an-section)
+    - [Remove an section](#remove-an-section)
+  - [Management of items of section](#management-of-items-of-section)
+    - [Set or add new an option](#set-or-add-new-an-option)
+    - [Getting values of option](#getting-values-of-option)
+    - [Remove an option](#remove-an-option)
+    - [Add new an item into a section](#add-new-an-item-into-a-section)
+    - [Get any item in a section by index](#get-any-item-in-a-section-by-index)
+    - [Remove any item from a section by index](#remove-any-item-from-a-section-by-index)
+  - [Print data](#print-data)
+  - [Write data to a file](#write-data-to-a-file)
+
+## Quick start
 
 ```ini
 # This is comment
@@ -30,7 +51,7 @@ second option  = -100
         ext3
 ```
 
-## Access to non-section area
+### Access to non-section area
 
 This is features needed if you want use simple key-value of config file
 
@@ -45,7 +66,7 @@ section['this is option'] = None   # Setting the value
 del section['second option']       # Deleting the option
 ```
 
-## Access to section area
+### Access to section area
 
 This is features needed if you want use INI config file
 
@@ -93,7 +114,7 @@ this is option
         ext4
 ```
 
-# Manual
+## Load config
 
 You can load configuration from file:
 
