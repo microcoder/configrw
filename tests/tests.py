@@ -9,8 +9,7 @@ from configrw import Config
         python -m unittest -v tests/tests.py
 
     DONE: Конфиг может содержать комментарии с префиксом определенных символов, возможно с отступом
-    TODO: Имена разделов чувствительны к регистру, а ключи - нет
-    TODO: Ведущие и конечные пробелы удаляются из ключей и значений
+    DONE: Ведущие и конечные пробелы удаляются из ключей и значений
     DONE: Значения могут быть опущены, и в этом случае разделитель ключ/значение также может быть пропущен
     DONE: Значения могут занимать несколько строк, если они имеют тот же отступ или глубже, чем первая строка значения
     DONE: Вставка опции на произвольном номере строки в секции
@@ -41,6 +40,7 @@ class ConfigTests(unittest.TestCase):
     def test_01_none_section(self):
 
         none_section = self.config[None]
+        none_section = self.config.get_section()
 
         self.assertTrue(none_section.has_option('this is option'))
         self.assertEqual(none_section['this is option'], 'this is value   ')
@@ -58,9 +58,9 @@ class ConfigTests(unittest.TestCase):
         none_section['option4'] = None
         self.assertEqual(none_section['option4'], None)
 
-    # @unittest.skip('Temporary skipped')
-    def test_02_has_sections(self):
+    def test_02_sections(self):
 
+        self.assertFalse(self.config.has_section('SECTION'))
         self.assertTrue(self.config.has_section('SECTION1'))
         self.assertFalse(self.config.has_section('  SECTION1  '))
         self.assertFalse(self.config.has_section('section1'))
@@ -69,137 +69,164 @@ class ConfigTests(unittest.TestCase):
         self.assertFalse('  SECTION1  ' in self.config)
         self.assertFalse('section1' in self.config)
 
-    # @unittest.skip('Temporary skipped')
-    def test_03_has_options(self):
+        # get section
+        section1 = self.config['SECTION1']
+        section1 = self.config.get_section('SECTION1')
+        del section1  # remove only link to the section
 
-        self.assertTrue(self.config['section2'].has_option('parameter_without_value'))
-        self.assertTrue('parameter_without_value' in self.config['section2'])
-        self.assertFalse('param3' in self.config['section2'])
+        # adding new section
+        newsection = self.config.add_section('new-section')
+        self.assertTrue(self.config.has_section('new-section'))
+        del newsection  # remove only link to the section
 
-        self.assertTrue(self.config['section3'].has_option('extensions'))
-        self.assertTrue('extensions' in self.config['section3'])
-        self.assertTrue(self.config['section3'].has_option('option_without_value'))
-        self.assertTrue('option_without_value' in self.config['section3'])
-        self.assertTrue(self.config['section3'].has_option('another option'))
-        self.assertTrue('another option' in self.config['section3'])
+    def test_03_options(self):
 
-        self.assertFalse(self.config['section3'].has_option('none_option'))
-        self.assertFalse('none_option' in self.config['section3'])
+        section2 = self.config['section2']
+        section3 = self.config['section3']
 
-    # @unittest.skip('Temporary skipped')
-    def test_04_check_values(self):
+        # check option
+        self.assertTrue(section2.has_option('param_without_value'))
+        self.assertTrue('param_without_value' in section2)
+        self.assertFalse('param3' in section2)
+        self.assertTrue(section3.has_option('extensions'))
+        self.assertTrue('extensions' in section3)
+        self.assertTrue(section3.has_option('option_without_value'))
+        self.assertTrue('option_without_value' in section3)
+        self.assertFalse(section3.has_option('none option'))
+        self.assertFalse('none option' in section3)
 
-        self.assertEqual(self.config['SECTION1']['option1'], 100)
-        self.assertEqual(self.config['SECTION1']['option3'], 1.2)
-        self.assertEqual(self.config['section2']['parameter_without_value'], None)
-        self.assertEqual(self.config['section3']['another option'], 55555)
-        with self.assertRaises(KeyError):
-            self.config['section3']['none_option']
+        # set new option
+        section2['param0'] = 0
+        self.assertTrue(section2.has_option('param0'))
+        self.assertEqual(section2['param0'], 0)
 
-    # @unittest.skip('Temporary skipped')
-    def test_05_set_option(self):
+        # reset option
+        section2.set_option('param0', 10, ': ', 0)
+        self.assertTrue(section2.has_option('param0'))
+        self.assertEqual(section2['param0'], 10)
 
-        self.config['section2'].set_option('param0', 10, ': ', 0)
-        self.assertTrue(self.config['section2'].has_option('param0'))
-        self.assertEqual(self.config['section2']['param0'], 10)
+        # moving position of param1
+        section2.set_option('param1', 1, pos=0)
+        self.assertTrue(section2.has_option('param1'))
+        self.assertEqual(section2['param1'], 1)
 
-        self.config['section2'].set_option('param1', 1, position=1)
-        self.assertTrue(self.config['section2'].has_option('param1'))
-        self.assertEqual(self.config['section2']['param1'], 1)
+        # setting parameter without value with custom indent
+        section2['    param2_without_value'] = None
+        self.assertTrue(section2.has_option('param2_without_value'))
+        self.assertEqual(section2['param2_without_value'], None)
 
-        self.config['section2']['param2'] = 200
-        self.assertTrue(self.config['section2'].has_option('param2'))
-        self.assertEqual(self.config['section2']['param2'], 200)
-
-        # separator not should be added with None value
-        self.config['section2'].set_option('param3', separator=' == ')
-        self.assertTrue(self.config['section2'].has_option('param3'))
-        self.assertEqual(self.config['section2']['param3'], None)
+        # separator not should be added with non-value
+        section2.set_option('param2', sep=' == ')
+        self.assertTrue(section2.has_option('param2'))
+        self.assertEqual(section2.get_option('param2')['sep'], None)
+        self.assertEqual(section2.get_option('param2')['value'], None)
 
         # separator should be added
-        self.config['section2'].set_option('param3', '', separator=' == ')
-        self.assertTrue(self.config['section2'].has_option('param3'))
-        self.assertEqual(self.config['section2']['param3'], '')
-
-        self.config['section2']['param4'] = None
-        self.assertTrue(self.config['section2'].has_option('param4'))
-        self.assertEqual(self.config['section2']['param4'], None)
+        section2.set_option('param2', '', sep=' == ')
+        self.assertTrue(section2.has_option('param2'))
+        self.assertEqual(section2.get_option('param2')['sep'], ' == ')
+        self.assertEqual(section2.get_option('param2')['value'], '')
 
         with self.assertRaises(ValueError):
-            self.config['SECTION1']['option1'] = True      # invalid type value
+            self.config['SECTION1']['option1'] = True  # invalid set type value
 
-    # @unittest.skip('Temporary skipped')
-    def test_06_check_value_types(self):
+        with self.assertRaises(KeyError):
+            section2['none_option']
 
-        self.config['section3']['opt_empty'] = ''
-        self.assertNotEqual(self.config['section3']['opt_empty'], None)
-        self.assertEqual(self.config['section3']['opt_empty'], '')
-
-        self.config['section3']['opt_none_value'] = []
-        self.assertEqual(self.config['section3']['opt_none_value'], None)
-
-        # Check int type
-        self.config['section3']['opt_int'] = 1000
-        self.assertEqual(self.config['section3']['opt_int'], 1000)
-
-        self.config['section3']['opt_int'] = '    2000 '
-        self.assertEqual(self.config['section3']['opt_int'], 2000)
-
-        # Check float type
-        self.config['section3']['opt_float'] = 0.1
-        self.assertEqual(self.config['section3']['opt_float'], 0.1)
-
-        self.config['section3']['opt_float'] = '                   0.2 '
-        self.assertEqual(self.config['section3']['opt_float'], 0.2)
-
-    # @unittest.skip('Temporary skipped')
-    def test_07_check_multivalues(self):
-
-        list_values = ['val1', ' val2', ' val3']
-        self.config['section3']['multival'] = list_values
-        list_values.insert(3, 'val4')
-        list_values.append('val5')
-        self.assertEqual(self.config['section3']['multival'], list_values)
-        self.assertEqual(self.config['section3'].get_option('multival')['value'], list_values)
-        self.assertEqual(id(self.config['section3']['multival']), id(list_values))  # checking identic
+        # remove options
+        del section2['param0']
+        self.assertFalse(section2.has_option('param0'))
+        self.assertFalse(section2.remove_option('param0'))
+        with self.assertRaises(KeyError):
+            section2['param0']
 
         # print()
-        # print(list_values)
-        # print(self.config['section3']['multival'])
-        # for line in self.config['section3'].to_text():
+        # for line in section2.to_text():
         #     print(line)
 
-        self.config['section3']['multival'] = []
-        self.assertEqual(self.config['section3']['multival'], None)
+    def test_04_values(self):
 
-        extensions = self.config['section3']['extensions']
+        section1 = self.config['SECTION1']
+        section2 = self.config['section2']
+        section3 = self.config['section3']
+
+        self.assertEqual(section2['param_without_value'], None)
+        self.assertEqual(section3['another option'], 55555)
+
+        section3['option_empty'] = ''
+        self.assertNotEqual(section3.get_option('option_empty')['sep'], None)
+        self.assertNotEqual(section3['option_empty'], None)
+        self.assertEqual(section3['option_empty'], '')
+
+        section3['option_none_value'] = []
+        self.assertEqual(section3.get_option('option_none_value')['sep'], None)
+        self.assertEqual(section3['option_none_value'], None)
+
+        # Check int type
+        self.assertEqual(section1['option1'], 100)
+        section3['option_int'] = 1000
+        self.assertEqual(section3['option_int'], 1000)
+        section3['option_int'] = '    1000 '
+        self.assertEqual(section3['option_int'], 1000)
+
+        # Check float type
+        self.assertEqual(section1['option3'], 1.2)
+        section3['option_float'] = 0.1
+        self.assertEqual(section3['option_float'], 0.1)
+        section3['option_float'] = '        0.2 '
+        self.assertEqual(section3['option_float'], 0.2)
+
+    def test_05_multiple_values(self):
+
+        section3 = self.config['section3']
+        list_values = ['val1', ' val2', ' val3']
+
+        # set new option
+        section3['multiple'] = list_values
+        self.assertEqual(section3['multiple'], list_values)
+
+        # adding values
+        list_values.insert(3, 'val4')
+        list_values.append('val5')
+
+        # checking identic
+        self.assertEqual(section3['multiple'], list_values)
+        self.assertEqual(id(section3['multiple']), id(list_values))
+
+        # adding new value
+        extensions = section3['extensions']
         extensions.append('ext3')
+
         # print(extensions)
-        # for line in self.config['section3'].to_text():
+        # print()
+        # for line in section3.to_text():
         #     print(line)
 
-    # @unittest.skip('Temporary skipped')
-    def test_08_remove_option(self):
+    def test_06_remove_sections(self):
 
-        del self.config['section3']['multival']
-        self.assertFalse(self.config['section3'].has_option('multival'))
-        self.assertFalse(self.config['section3'].remove_option('multival'))
-        with self.assertRaises(KeyError):
-            self.config['section3']['multival']
+        del self.config['new-section']
+        self.assertFalse(self.config.has_section('new-section'))
 
-    # @unittest.skip('Temporary skipped')
-    def test_09_remove_section(self):
-
-        del self.config['SECTION1']
+        self.config.remove_section('SECTION1')
         self.assertFalse(self.config.has_section('SECTION1'))
         with self.assertRaises(KeyError):
             self.config['SECTION1']
 
-        # None-section cannot be deleted
+        # non-section cannot be deleted
         del self.config[None]
 
-    # @unittest.skip('Temporary skipped')
-    def test_10_write_config(self):
+    def test_07_items(self):
+
+        section2 = self.config['section2']
+        comment = section2[0]
+        param2_value = section2[2]['value']
+        count_items = len(section2)
+
+        del comment
+        del param2_value
+        del count_items
+
+    def test_08_write_config(self):
 
         self.config._filepath = None
         with self.assertRaises(AttributeError):
@@ -213,17 +240,13 @@ class ConfigTests(unittest.TestCase):
         self.config.write(filepath)
         os.unlink(self.config._filepath)
 
-    # @unittest.skip('Temporary skipped')
-    def test_11_str_equals(self):
+    def test_09_str_equals(self):
         self.config = Config().from_file('tests/config.ini')
         self.config2 = Config().from_file('tests/config.ini')
 
         self.assertTrue(self.config == self.config2)
 
-        del self.config2
-
-    # @unittest.skip('Temporary skipped')
-    def test_12_text_hash_equals(self):
+    def test_10_hash_equals(self):
 
         hash1 = None
         hash2 = None
@@ -232,65 +255,73 @@ class ConfigTests(unittest.TestCase):
             hash1 = hashlib.sha3_256(f.read().encode()).hexdigest()
 
         self.config = Config().from_file('tests/config.ini')
-        with open('tests/config_out.ini', 'w') as f:
+        filetmp = tempfile.gettempdir() + '/test_config.ini'
+        with open(filetmp, 'w') as f:
             for line in self.config.to_text():
-                f.writelines(line)
+                f.write(line + '\n')
 
-        with open('tests/config_out.ini', 'r') as f:
+        with open(filetmp, 'r') as f:
             hash2 = hashlib.sha3_256(f.read().encode()).hexdigest()
 
+        os.unlink(filetmp)
+
         # print(hashlib.algorithms_guaranteed)
-        # print()
         # print(hash1)
         # print(hash2)
 
         self.assertEqual(hash1, hash2)
 
-    @unittest.skip('Temporary skipped')
-    def test_13_examples(self):
+    def test_11_user_manual(self):
 
-        # create new config
         config = Config()
+        section1 = config.add_section('section1', inline_text=' # this is comment')
+        section1['option1'] = 'value1'
+        section1['option_without_value'] = None
+        section1.set_option('option2', 200)
 
-        # get non-section
-        section = config[None]
+        section1.set_option('option1', 100, sep=' == ', pos=0)
+        section1.set_option('option_without_value', pos=0)
 
-        # set or add new value:
-        section['option1'] = 100  # or section.set_option('option2', 100)
+        non_section = config[None]
+        non_section['global_parameter'] = 1
 
-        # get value
-        value = section['option1']  # or section.get_value('option1')
-        print(value)
+        section1.set_option('    option1', 100)
+        section1.set_option('    option_without_value')
 
-        # get option
-        option1 = section.get_option('option1')
-        print(option1)
+        value = section1['option_without_value']
+        value = section1.get_option('option1')['value']
+        value = section1.get_value('option2')
 
-        # set custom value separator
-        option2 = section.set_option('option2', 200, ' : ')
-        print(option2)
-        print(section['option2'])
+        del section1['option2']
+        # section1.remove_option('option2')
 
-        # set custom option position
-        section.set_option(key='option3', value=300, separator=' = ', position=0)
-        print(section)
+        # Add new items
+        section1.add_item({'key': '    option2', 'sep': ' = ', 'value': 2})
+        section1.add_item({'key': '    option0', 'sep': ' = ', 'value': 0}, pos=0)
+        section1.add_item('', pos=0)
+        section1.add_item('')
+        section1.add_item('    # This is comment for option1', 3)
 
-        # adding comments or any other entry
-        section.add_item(item='', position=0)
-        section.add_item(item='# this my first comment', position=1)
-        section.add_item('')
-        section.add_item({'key': 'mykey', 'separator': ' = ', 'value': 1000})
-        section.add_item('')
-        print(section)
+        # Get items
+        value = section1[4]['value']
+        comment = section1[1]['value']
+        last_item = section1[len(section1) - 1]
+        del value
+        del comment
+        del last_item
 
-        # adding multivalue option and set indents
-        section['multivalue'] = ['                    one', 'two', '  three', 4, 'five', (100, 200, 300)]
-        # or:
-        section.set_option('extensions', ['ext1', 'ext2'])
+        # Remove items
+        del section1[0]
+        del section1[5]
+        del section1[4]
 
-        # print text format
-        for i in section.to_text():
-            print(i)
+        # print()
+        # for line in config.to_text():
+        #     print(line)
+
+        # print()
+        # for line in config.to_text():
+        #     print(line)
 
 
 if __name__ == '__main__':
