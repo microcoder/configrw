@@ -301,6 +301,7 @@ global_parameter = 1
 ```python
 comment = section1[3]
 option1_value = section1[4]['value']
+last_item = section1[len(section1) - 1]
 ```
 
 ### Remove any item from a section by index
