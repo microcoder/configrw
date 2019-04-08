@@ -416,6 +416,6 @@ class Config():
             yield line
 
         for section_name, section in self._sections.items():
-            yield f'[{section_name}]{section._inline_comment}'
+            yield f"[{section_name}]{section._inline_comment or ''}"
             for line in section.to_text():
                 yield line
