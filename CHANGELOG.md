@@ -1,3 +1,3 @@
-## March 25, 2019
+## April 8, 2019
 
-* First public release
+* First public release v1.0.0
