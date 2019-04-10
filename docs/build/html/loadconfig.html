@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Search &mdash; configrw 1.0.0 documentation</title>
+  <title>3. Load config &mdash; configrw 1.0.0 documentation</title>
   
 
   
@@ -25,7 +25,6 @@
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
         <script type="text/javascript" src="_static/language_data.js"></script>
-        <script type="text/javascript" src="_static/searchtools.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -35,7 +34,9 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="#" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="4. Management of sections" href="sections.html" />
+    <link rel="prev" title="2. Quick start" href="quickstart.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -62,7 +63,7 @@
 
           
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="#" method="get">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -79,10 +80,10 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">1. Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">2. Quick start</a></li>
-<li class="toctree-l1"><a class="reference internal" href="loadconfig.html">3. Load config</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3. Load config</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sections.html">4. Management of sections</a></li>
 <li class="toctree-l1"><a class="reference internal" href="items.html">5. Management of items of section</a></li>
 <li class="toctree-l1"><a class="reference internal" href="print.html">6. Print data</a></li>
@@ -132,12 +133,14 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Search</li>
+      <li>3. Load config</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
+            <a href="_sources/loadconfig.rst.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -149,24 +152,45 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <noscript>
-  <div id="fallback" class="admonition warning">
-    <p class="last">
-      Please activate JavaScript to enable the search
-      functionality.
-    </p>
-  </div>
-  </noscript>
+  <div class="section" id="load-config">
+<span id="loadconfig-doc"></span><h1>3. Load config<a class="headerlink" href="#load-config" title="Permalink to this headline">¶</a></h1>
+<p>You can load configuration from file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configrw</span> <span class="kn">import</span> <span class="n">Config</span>
 
-  
-  <div id="search-results">
-  
-  </div>
+<span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="s1">&#39;./path/to/file&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>or load config from string:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">from_str</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">[section1]</span>
+<span class="s2">option1 = 100</span>
+<span class="s2">option2 = 200</span>
+
+<span class="s2">[section2]</span>
+<span class="s2">option1 = 300</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>or create new empty config:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+
 
            </div>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="sections.html" class="btn btn-neutral float-right" title="4. Management of sections" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="quickstart.html" class="btn btn-neutral float-left" title="2. Quick start" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
@@ -199,14 +223,7 @@
   
   
     
-  
-  <script type="text/javascript">
-    jQuery(function() { Search.loadIndex("searchindex.js"); });
-  </script>
-  
-  <script type="text/javascript" id="searchindexloader"></script>
    
-
 
 </body>
 </html>

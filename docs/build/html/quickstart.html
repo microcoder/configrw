@@ -1,0 +1,296 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>2. Quick start &mdash; configrw 1.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="3. Load config" href="loadconfig.html" />
+    <link rel="prev" title="1. Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> configrw
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">1. Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Quick start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#access-to-non-section-area">2.1. Access to non-section area</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#access-to-section-area">2.2. Access to section area</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="loadconfig.html">3. Load config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sections.html">4. Management of sections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="items.html">5. Management of items of section</a></li>
+<li class="toctree-l1"><a class="reference internal" href="print.html">6. Print data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="write.html">7. Write data to a file</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">configrw</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>2. Quick start</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/quickstart.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="quick-start">
+<span id="quickstart-doc"></span><h1>2. Quick start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
+<p>In next examples we will use the following INI file:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="c1"># This is comment</span>
+<span class="na">this is option</span> <span class="o">=</span> <span class="s">this is value</span>
+<span class="na">second option</span>  <span class="o">=</span> <span class="s">-100</span>
+
+<span class="na">[ SECTION1 ] # comment</span>
+    <span class="na">option1</span> <span class="o">=</span> <span class="s">100</span>
+<span class="s">    option2 = 200</span>
+<span class="s">    # comment</span>
+<span class="s">    option3 = 1.2</span>
+
+<span class="k">[ section2 ]</span>
+    <span class="na">param1</span> <span class="o">=</span> <span class="s">&#39;str&#39;</span>
+<span class="s">    param2 = 0 # comment</span>
+<span class="s">    parameter_without_value</span>
+
+<span class="k">[section3]</span>
+    <span class="na">extensions</span> <span class="o">=</span><span class="s"></span>
+<span class="s">        # comment1</span>
+<span class="s">        ext1</span>
+<span class="s">        # comment2</span>
+<span class="s">        ext2</span>
+<span class="s">        ext3</span>
+</pre></div>
+</div>
+<div class="section" id="access-to-non-section-area">
+<h2>2.1. Access to non-section area<a class="headerlink" href="#access-to-non-section-area" title="Permalink to this headline">¶</a></h2>
+<p>This is features needed if you want use simple key-value of config file</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configrw</span> <span class="kn">import</span> <span class="n">Config</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="s1">&#39;./path/to/file&#39;</span><span class="p">)</span>
+
+<span class="n">section</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="bp">None</span><span class="p">]</span>             <span class="c1"># Getting non-section</span>
+<span class="n">value</span> <span class="o">=</span> <span class="n">section</span><span class="p">[</span><span class="s1">&#39;this is option&#39;</span><span class="p">]</span>  <span class="c1"># Getting the value</span>
+<span class="n">section</span><span class="p">[</span><span class="s1">&#39;this is option&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>   <span class="c1"># Setting the value</span>
+<span class="k">del</span> <span class="n">section</span><span class="p">[</span><span class="s1">&#39;second option&#39;</span><span class="p">]</span>       <span class="c1"># Deleting the option</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="access-to-section-area">
+<h2>2.2. Access to section area<a class="headerlink" href="#access-to-section-area" title="Permalink to this headline">¶</a></h2>
+<p>This is features needed if you want use INI config file</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">value</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;SECTION1&#39;</span><span class="p">][</span><span class="s1">&#39;option2&#39;</span><span class="p">]</span>       <span class="c1"># Getting the value</span>
+<span class="n">config</span><span class="p">[</span><span class="s1">&#39;SECTION1&#39;</span><span class="p">][</span><span class="s1">&#39;option2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>           <span class="c1"># Setting the value</span>
+<span class="n">config</span><span class="p">[</span><span class="s1">&#39;SECTION1&#39;</span><span class="p">][</span><span class="s1">&#39;option3&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">300</span>         <span class="c1"># Adding new option to section</span>
+
+<span class="n">config</span><span class="p">[</span><span class="s1">&#39;section3&#39;</span><span class="p">][</span><span class="s1">&#39;extensions&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;ext4&#39;</span><span class="p">)</span>     <span class="c1"># Adding new value to multiple values</span>
+<span class="n">config</span><span class="p">[</span><span class="s1">&#39;section3&#39;</span><span class="p">][</span><span class="s1">&#39;extensions&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">&#39;ext0&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># Inserting new value</span>
+<span class="n">config</span><span class="p">[</span><span class="s1">&#39;section3&#39;</span><span class="p">][</span><span class="s1">&#39;extensions&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;extension0&#39;</span>  <span class="c1"># Changing single value of multiple values</span>
+
+<span class="n">config</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;./path/to/file&#39;</span><span class="p">)</span>              <span class="c1"># Saving config to file</span>
+
+<span class="c1"># to output config on screen</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">to_text</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>INI-file after changes:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="c1"># This is comment</span>
+<span class="na">this is option</span>
+
+<span class="na">[ SECTION1 ] # comment</span>
+    <span class="na">option1</span> <span class="o">=</span> <span class="s">100</span>
+<span class="s">    option2 = 0</span>
+<span class="s">    # comment</span>
+<span class="s">    option3 = 300</span>
+
+<span class="k">[ section2 ]</span>
+    <span class="na">param1</span> <span class="o">=</span> <span class="s">&#39;str&#39;</span>
+<span class="s">    param2 = 0 # comment</span>
+<span class="s">    parameter_without_value</span>
+
+<span class="k">[section3]</span>
+    <span class="na">extensions</span> <span class="o">=</span><span class="s"></span>
+<span class="s">        extension0</span>
+<span class="s">        # comment1</span>
+<span class="s">        ext1</span>
+<span class="s">        # comment2</span>
+<span class="s">        ext2</span>
+<span class="s">        ext3</span>
+<span class="s">        ext4</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="loadconfig.html" class="btn btn-neutral float-right" title="3. Load config" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="installation.html" class="btn btn-neutral float-left" title="1. Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, microcoder
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
