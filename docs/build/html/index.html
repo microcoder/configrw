@@ -4,8 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Welcome to mytest’s documentation! &#8212; configrw 1.0.0 documentation</title>
-    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <title>Welcome to ConfigRW documentation! &#8212; configrw 1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -13,56 +13,314 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
   </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="nav-item nav-item-0"><a href="#">configrw 1.0.0 documentation</a> &#187;</li> 
-      </ul>
-    </div>  
+  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
-  <div class="section" id="welcome-to-mytest-s-documentation">
-<h1>Welcome to mytest’s documentation!<a class="headerlink" href="#welcome-to-mytest-s-documentation" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
+  <div class="section" id="welcome-to-configrw-documentation">
+<h1>Welcome to ConfigRW documentation!<a class="headerlink" href="#welcome-to-configrw-documentation" title="Permalink to this headline">¶</a></h1>
+<p>ConfigRW is a simple reader and writer config files based on key-value or INI-structure.</p>
+</div>
+<div class="section" id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<p>Здесь описать процесс инсталяции</p>
+</div>
+<div class="section" id="quick-start">
+<h1>Quick start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
+<p>In this example we will use the following INI file:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="c1"># This is comment</span>
+<span class="na">this is option</span> <span class="o">=</span> <span class="s">this is value</span>
+<span class="na">second option</span>  <span class="o">=</span> <span class="s">-100</span>
+
+<span class="na">[ SECTION1 ] # comment</span>
+    <span class="na">option1</span> <span class="o">=</span> <span class="s">100</span>
+<span class="s">    option2 = 200</span>
+<span class="s">    # comment</span>
+<span class="s">    option3 = 1.2</span>
+
+<span class="k">[ section2 ]</span>
+    <span class="na">param1</span> <span class="o">=</span> <span class="s">&#39;str&#39;</span>
+<span class="s">    param2 = 0 # comment</span>
+<span class="s">    parameter_without_value</span>
+
+<span class="k">[section3]</span>
+    <span class="na">extensions</span> <span class="o">=</span><span class="s"></span>
+<span class="s">        # comment1</span>
+<span class="s">        ext1</span>
+<span class="s">        # comment2</span>
+<span class="s">        ext2</span>
+<span class="s">        ext3</span>
+</pre></div>
+</div>
+<div class="section" id="access-to-non-section-area">
+<h2>Access to non-section area<a class="headerlink" href="#access-to-non-section-area" title="Permalink to this headline">¶</a></h2>
+<p>This is features needed if you want use simple key-value of config file</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configrw</span> <span class="kn">import</span> <span class="n">Config</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="s1">&#39;./path/to/file&#39;</span><span class="p">)</span>
+
+<span class="n">section</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="bp">None</span><span class="p">]</span>             <span class="c1"># Getting non-section</span>
+<span class="n">value</span> <span class="o">=</span> <span class="n">section</span><span class="p">[</span><span class="s1">&#39;this is option&#39;</span><span class="p">]</span>  <span class="c1"># Getting the value</span>
+<span class="n">section</span><span class="p">[</span><span class="s1">&#39;this is option&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>   <span class="c1"># Setting the value</span>
+<span class="k">del</span> <span class="n">section</span><span class="p">[</span><span class="s1">&#39;second option&#39;</span><span class="p">]</span>       <span class="c1"># Deleting the option</span>
+</pre></div>
 </div>
 </div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
-<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
-<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
-</ul>
+<div class="section" id="access-to-section-area">
+<h2>Access to section area<a class="headerlink" href="#access-to-section-area" title="Permalink to this headline">¶</a></h2>
+<p>This is features needed if you want use INI config file</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">value</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;SECTION1&#39;</span><span class="p">][</span><span class="s1">&#39;option2&#39;</span><span class="p">]</span>       <span class="c1"># Getting the value</span>
+<span class="n">config</span><span class="p">[</span><span class="s1">&#39;SECTION1&#39;</span><span class="p">][</span><span class="s1">&#39;option2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>           <span class="c1"># Setting the value</span>
+<span class="n">config</span><span class="p">[</span><span class="s1">&#39;SECTION1&#39;</span><span class="p">][</span><span class="s1">&#39;option3&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">300</span>         <span class="c1"># Adding new option to section</span>
+
+<span class="n">config</span><span class="p">[</span><span class="s1">&#39;section3&#39;</span><span class="p">][</span><span class="s1">&#39;extensions&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;ext4&#39;</span><span class="p">)</span>     <span class="c1"># Adding new value to multiple values</span>
+<span class="n">config</span><span class="p">[</span><span class="s1">&#39;section3&#39;</span><span class="p">][</span><span class="s1">&#39;extensions&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">&#39;ext0&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># Inserting new value</span>
+<span class="n">config</span><span class="p">[</span><span class="s1">&#39;section3&#39;</span><span class="p">][</span><span class="s1">&#39;extensions&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;extension0&#39;</span>  <span class="c1"># Changing single value of multiple values</span>
+
+<span class="n">config</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;./path/to/file&#39;</span><span class="p">)</span>              <span class="c1"># Saving config to file</span>
+
+<span class="c1"># to output config on screen</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">to_text</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>INI-file after changes:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="c1"># This is comment</span>
+<span class="na">this is option</span>
+
+<span class="na">[ SECTION1 ] # comment</span>
+    <span class="na">option1</span> <span class="o">=</span> <span class="s">100</span>
+<span class="s">    option2 = 0</span>
+<span class="s">    # comment</span>
+<span class="s">    option3 = 300</span>
+
+<span class="k">[ section2 ]</span>
+    <span class="na">param1</span> <span class="o">=</span> <span class="s">&#39;str&#39;</span>
+<span class="s">    param2 = 0 # comment</span>
+<span class="s">    parameter_without_value</span>
+
+<span class="k">[section3]</span>
+    <span class="na">extensions</span> <span class="o">=</span><span class="s"></span>
+<span class="s">        extension0</span>
+<span class="s">        # comment1</span>
+<span class="s">        ext1</span>
+<span class="s">        # comment2</span>
+<span class="s">        ext2</span>
+<span class="s">        ext3</span>
+<span class="s">        ext4</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="load-config">
+<h1>Load config<a class="headerlink" href="#load-config" title="Permalink to this headline">¶</a></h1>
+<p>You can load configuration from file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configrw</span> <span class="kn">import</span> <span class="n">Config</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="s1">&#39;./path/to/file&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>or load config from string:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">from_str</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">[section1]</span>
+<span class="s2">option1 = 100</span>
+<span class="s2">option2 = 200</span>
+
+<span class="s2">[section2]</span>
+<span class="s2">option1 = 300</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>or create new empty config:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="management-of-sections">
+<h1>Management of sections<a class="headerlink" href="#management-of-sections" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="checking-if-has-a-section">
+<h2>Checking if has a section<a class="headerlink" href="#checking-if-has-a-section" title="Permalink to this headline">¶</a></h2>
+<p>For checking existing section you can use method <code class="docutils literal notranslate"><span class="pre">has_section()</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">has_section</span><span class="p">(</span><span class="s1">&#39;section1&#39;</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Not exists&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>or use iteration:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="s1">&#39;section1&#39;</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Not exists&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="add-new-section">
+<h2>Add new section<a class="headerlink" href="#add-new-section" title="Permalink to this headline">¶</a></h2>
+<p>Adding a new section or reset exist section:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">new_section</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">add_section</span><span class="p">(</span><span class="s1">&#39;section1&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-an-section">
+<h2>Get an section<a class="headerlink" href="#get-an-section" title="Permalink to this headline">¶</a></h2>
+<p>Get non-section area for management of simple configs:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">non_section</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="bp">None</span><span class="p">]</span>
+<span class="n">non_section</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get_section</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Also you can get an existing section in two different ways:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">section1</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;section1&#39;</span><span class="p">]</span>
+<span class="n">section1</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get_section</span><span class="p">(</span><span class="s1">&#39;section1&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>if section do not exist then raised <code class="docutils literal notranslate"><span class="pre">KeyError</span></code></p>
+</div>
+</div>
+<div class="section" id="remove-an-section">
+<h2>Remove an section<a class="headerlink" href="#remove-an-section" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">del</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;section1&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">remove_section</span><span class="p">(</span><span class="s1">&#39;section1&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="management-of-items-of-section">
+<h1>Management of items of section<a class="headerlink" href="#management-of-items-of-section" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="set-or-add-new-an-option">
+<h2>Set or add new an option<a class="headerlink" href="#set-or-add-new-an-option" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">section1</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">add_section</span><span class="p">(</span><span class="s1">&#39;section1&#39;</span><span class="p">,</span> <span class="n">inline_text</span><span class="o">=</span><span class="s1">&#39; # this is comment&#39;</span><span class="p">)</span>
+
+<span class="n">section1</span><span class="p">[</span><span class="s1">&#39;option1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;value1&#39;</span>
+<span class="n">section1</span><span class="p">[</span><span class="s1">&#39;option_without_value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="n">section1</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;option2&#39;</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>or you can adding option with custom separator or position:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">section1</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;option1&#39;</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39; == &#39;</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">section1</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;option_without_value&#39;</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Result:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">[section1] # this is comment</span>
+<span class="na">option_without_value</span>
+<span class="na">option1</span> <span class="o">=</span><span class="s">= 100</span>
+<span class="na">option2</span> <span class="o">=</span> <span class="s">200</span>
+</pre></div>
+</div>
+<p>Also, you can set option to non-section area:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">non_section</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="bp">None</span><span class="p">]</span>
+<span class="n">non_section</span><span class="p">[</span><span class="s1">&#39;global_parameter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>Result:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">global_parameter</span> <span class="o">=</span> <span class="s">1</span>
+<span class="na">[section1] # this is comment</span>
+<span class="na">option_without_value</span>
+<span class="na">option1</span> <span class="o">=</span><span class="s">= 100</span>
+<span class="na">option2</span> <span class="o">=</span> <span class="s">200</span>
+</pre></div>
+</div>
+<p>You can set option with custom indentation:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">section1</span><span class="p">[</span><span class="s1">&#39;    option1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">section1</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;    option1&#39;</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="n">section1</span><span class="p">[</span><span class="s1">&#39;    option_without_value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="n">section1</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;    option_without_value&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Result:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">global_parameter</span> <span class="o">=</span> <span class="s">1</span>
+<span class="na">[section1] # this is comment</span>
+    <span class="na">option_without_value</span>
+    <span class="na">option1</span> <span class="o">=</span> <span class="s">100</span>
+<span class="na">option2</span> <span class="o">=</span> <span class="s">200</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-values-of-option">
+<h2>Get values of option<a class="headerlink" href="#get-values-of-option" title="Permalink to this headline">¶</a></h2>
+<p>You can get an option value in three different ways:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">value</span> <span class="o">=</span> <span class="n">section1</span><span class="p">[</span><span class="s1">&#39;option1&#39;</span><span class="p">]</span>
+<span class="n">value</span> <span class="o">=</span> <span class="n">section1</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="s1">&#39;option1&#39;</span><span class="p">)</span>
+<span class="n">value</span> <span class="o">=</span> <span class="n">section1</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;option1&#39;</span><span class="p">)[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Also you can get value by index at section. See the chapter next.</p>
+</div>
+</div>
+<div class="section" id="remove-an-option">
+<h2>Remove an option<a class="headerlink" href="#remove-an-option" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">del</span> <span class="n">section1</span><span class="p">[</span><span class="s1">&#39;option2&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">section1</span><span class="o">.</span><span class="n">remove_option</span><span class="p">(</span><span class="s1">&#39;option2&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Also you can delete an option by index. See the chapter next.</p>
+</div>
+</div>
+<div class="section" id="add-a-new-item">
+<h2>Add a new item<a class="headerlink" href="#add-a-new-item" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="get-an-item-by-index">
+<h2>Get an item by index<a class="headerlink" href="#get-an-item-by-index" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="remove-an-item-by-index">
+<h2>Remove an item by index<a class="headerlink" href="#remove-an-item-by-index" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+<div class="section" id="print-data">
+<h1>Print data<a class="headerlink" href="#print-data" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="write-data-to-a-file">
+<h1>Write data to a file<a class="headerlink" href="#write-data-to-a-file" title="Permalink to this headline">¶</a></h1>
 </div>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="#">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Welcome to mytest’s documentation!</a></li>
-<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
-</ul>
+<h1 class="logo"><a href="#">configrw</a></h1>
 
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/index.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <div class="searchformwrapper">
@@ -73,22 +331,32 @@
     </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="nav-item nav-item-0"><a href="#">configrw 1.0.0 documentation</a> &#187;</li> 
-      </ul>
+    <div class="footer">
+      &copy;2019, microcoder.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
     </div>
-    <div class="footer" role="contentinfo">
-        &#169; Copyright 2019, microcoder.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.0.1.
-    </div>
+
+    
+
+    
   </body>
 </html>
