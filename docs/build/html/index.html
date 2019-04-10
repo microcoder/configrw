@@ -180,7 +180,7 @@
 </div>
 <div class="section" id="quick-start">
 <h1>Quick start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
-<p>In this example we will use the following INI file:</p>
+<p>In next examples we will use the following INI file:</p>
 <div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="c1"># This is comment</span>
 <span class="na">this is option</span> <span class="o">=</span> <span class="s">this is value</span>
 <span class="na">second option</span>  <span class="o">=</span> <span class="s">-100</span>
@@ -421,19 +421,113 @@
 </div>
 <div class="section" id="add-a-new-item">
 <h2>Add a new item<a class="headerlink" href="#add-a-new-item" title="Permalink to this headline">¶</a></h2>
+<p>Instead of using <code class="docutils literal notranslate"><span class="pre">set_option()</span></code> method, you can use the low-level
+method <code class="docutils literal notranslate"><span class="pre">add_item()</span></code> to add empty lines, comments to the section:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># append new option:</span>
+<span class="n">section1</span><span class="o">.</span><span class="n">add_item</span><span class="p">({</span><span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="s1">&#39;    option2&#39;</span><span class="p">,</span> <span class="s1">&#39;sep&#39;</span><span class="p">:</span> <span class="s1">&#39; = &#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+<span class="c1"># insert new option</span>
+<span class="n">section1</span><span class="o">.</span><span class="n">add_item</span><span class="p">({</span><span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="s1">&#39;    option0&#39;</span><span class="p">,</span> <span class="s1">&#39;sep&#39;</span><span class="p">:</span> <span class="s1">&#39; = &#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span> <span class="n">pos</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="c1"># insert empty line</span>
+<span class="n">section1</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="c1"># append empty line</span>
+<span class="n">section1</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="c1"># insert comment</span>
+<span class="n">section1</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="s1">&#39;    # This is comment for option1&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Result:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">global_parameter</span> <span class="o">=</span> <span class="s">1</span>
+<span class="na">[section1] # this is comment</span>
+
+    <span class="na">option0</span> <span class="o">=</span> <span class="s">0</span>
+<span class="s">    option_without_value</span>
+<span class="s">    # This is comment for option1</span>
+<span class="s">    option1 = 100</span>
+<span class="s">    option2 = 2</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="get-an-item-by-index">
 <h2>Get an item by index<a class="headerlink" href="#get-an-item-by-index" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">comment</span> <span class="o">=</span> <span class="n">section1</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">option1_value</span> <span class="o">=</span> <span class="n">section1</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+<span class="n">last_item</span> <span class="o">=</span> <span class="n">section1</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">section1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="remove-an-item-by-index">
 <h2>Remove an item by index<a class="headerlink" href="#remove-an-item-by-index" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">del</span> <span class="n">section1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">del</span> <span class="n">section1</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+<span class="k">del</span> <span class="n">section1</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Result:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">global_parameter</span> <span class="o">=</span> <span class="s">1</span>
+<span class="na">[section1] # this is comment</span>
+    <span class="na">option0</span> <span class="o">=</span> <span class="s">0</span>
+<span class="s">    option_without_value</span>
+<span class="s">    # This is comment for option1</span>
+<span class="s">    option1 = 100</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="print-data">
 <h1>Print data<a class="headerlink" href="#print-data" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+    <span class="p">{</span><span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="s1">&#39;global_parameter&#39;</span><span class="p">,</span> <span class="s1">&#39;sep&#39;</span><span class="p">:</span> <span class="s1">&#39; = &#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+<span class="p">],</span>
+<span class="p">{</span><span class="s1">&#39;section1&#39;</span><span class="p">:</span>
+    <span class="p">[</span>
+        <span class="p">{</span><span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="s1">&#39;    option0&#39;</span><span class="p">,</span> <span class="s1">&#39;sep&#39;</span><span class="p">:</span> <span class="s1">&#39; = &#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+        <span class="p">{</span><span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="s1">&#39;    option_without_value&#39;</span><span class="p">,</span> <span class="s1">&#39;sep&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">},</span>
+        <span class="s1">&#39;    # This is comment for option1&#39;</span><span class="p">,</span>
+        <span class="p">{</span><span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="s1">&#39;    option1&#39;</span><span class="p">,</span> <span class="s1">&#39;sep&#39;</span><span class="p">:</span> <span class="s1">&#39; = &#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;section1&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+    <span class="p">{</span><span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="s1">&#39;    option0&#39;</span><span class="p">,</span> <span class="s1">&#39;sep&#39;</span><span class="p">:</span> <span class="s1">&#39; = &#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+    <span class="p">{</span><span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="s1">&#39;    option_without_value&#39;</span><span class="p">,</span> <span class="s1">&#39;sep&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">},</span>
+    <span class="s1">&#39;    # This is comment for option1&#39;</span><span class="p">,</span>
+    <span class="p">{</span><span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="s1">&#39;    option1&#39;</span><span class="p">,</span> <span class="s1">&#39;sep&#39;</span><span class="p">:</span> <span class="s1">&#39; = &#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Also you can use method <code class="docutils literal notranslate"><span class="pre">to_text()</span></code> for all config or for a section:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">to_text</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Output as text format:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">global_parameter</span> <span class="o">=</span> <span class="s">1</span>
+<span class="na">[section1] # this is comment</span>
+    <span class="na">option0</span> <span class="o">=</span> <span class="s">0</span>
+<span class="s">    option_without_value</span>
+<span class="s">    # This is comment for option1</span>
+<span class="s">    option1 = 100</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="write-data-to-a-file">
 <h1>Write data to a file<a class="headerlink" href="#write-data-to-a-file" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;path/to/file&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Else if file was opened, then method <code class="docutils literal notranslate"><span class="pre">write()</span></code> can be call without parameter:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">write</span><span class="p">()</span>
+</pre></div>
+</div>
 </div>
 
 

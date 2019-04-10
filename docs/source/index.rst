@@ -19,7 +19,7 @@ Getting Started
 Quick start
 ===========
 
-In this example we will use the following INI file:
+In next examples we will use the following INI file:
 
 .. code:: ini
 
@@ -303,14 +303,127 @@ or
 Add a new item
 --------------
 
+Instead of using ``set_option()`` method, you can use the low-level
+method ``add_item()`` to add empty lines, comments to the section:
+
+.. code:: python
+
+    # append new option:
+    section1.add_item({'key': '    option2', 'sep': ' = ', 'value': 2})
+    # insert new option
+    section1.add_item({'key': '    option0', 'sep': ' = ', 'value': 0}, pos=0)
+    # insert empty line
+    section1.add_item('', pos=0)
+    # append empty line
+    section1.add_item('')
+    # insert comment
+    section1.add_item('    # This is comment for option1', 3)
+
+Result:
+
+.. code:: ini
+
+    global_parameter = 1
+    [section1] # this is comment
+
+        option0 = 0
+        option_without_value
+        # This is comment for option1
+        option1 = 100
+        option2 = 2
+
 Get an item by index
 --------------------
+.. code:: python
+
+    comment = section1[3]
+    option1_value = section1[4]['value']
+    last_item = section1[len(section1) - 1]
 
 Remove an item by index
 -----------------------
+.. code:: python
+
+    del section1[0]
+    del section1[5]
+    del section1[4]
+
+Result:
+
+.. code:: ini
+
+    global_parameter = 1
+    [section1] # this is comment
+        option0 = 0
+        option_without_value
+        # This is comment for option1
+        option1 = 100
 
 Print data
 ==========
 
+.. code:: python
+
+    print(config)
+
+Output:
+
+.. code:: python
+
+    [
+        {'key': 'global_parameter', 'sep': ' = ', 'value': 1}
+    ], 
+    {'section1': 
+        [
+            {'key': '    option0', 'sep': ' = ', 'value': 0},
+            {'key': '    option_without_value', 'sep': None, 'value': None},
+            '    # This is comment for option1',
+            {'key': '    option1', 'sep': ' = ', 'value': 100}
+        ]
+    }
+
+.. code:: python
+
+    print(config['section1'])
+
+Output:
+
+.. code:: python
+
+    [
+        {'key': '    option0', 'sep': ' = ', 'value': 0},
+        {'key': '    option_without_value', 'sep': None, 'value': None},
+        '    # This is comment for option1',
+        {'key': '    option1', 'sep': ' = ', 'value': 100}
+    ]
+
+Also you can use method ``to_text()`` for all config or for a section:
+
+.. code:: python
+
+    for line in config.to_text():
+        print(line)
+
+Output as text format:
+
+.. code:: ini
+
+    global_parameter = 1
+    [section1] # this is comment
+        option0 = 0
+        option_without_value
+        # This is comment for option1
+        option1 = 100
+
 Write data to a file
 ====================
+
+.. code:: python
+
+    config.write('path/to/file')
+
+Else if file was opened, then method ``write()`` can be call without parameter:
+
+.. code:: python
+
+    config.write()
