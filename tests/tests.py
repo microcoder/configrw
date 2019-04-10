@@ -288,9 +288,9 @@ class ConfigTests(unittest.TestCase):
         section1.set_option('    option1', 100)
         section1.set_option('    option_without_value')
 
-        value = section1['option_without_value']
+        value = section1['option1']
+        value = section1.get_value('option1')
         value = section1.get_option('option1')['value']
-        value = section1.get_value('option2')
 
         del section1['option2']
         # section1.remove_option('option2')
