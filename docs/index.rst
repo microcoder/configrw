@@ -114,17 +114,81 @@ INI-file after changes:
 Load config
 ===========
 
+You can load configuration from file:
+
+.. code:: python
+
+    from configrw import Config
+
+    config = Config().from_file('./path/to/file')
+
+or load config from string:
+
+.. code:: python
+
+    config = Config().from_str("""
+    [section1]
+    option1 = 100
+    option2 = 200
+
+    [section2]
+    option1 = 300
+    """)
+
+or create new empty config:
+
+.. code:: python
+
+    config = Config()
+
 Management of sections
 ======================
 
 Checking if has a section
 -------------------------
 
+For checking existing section you can use method `has_section()`:
+
+.. code:: python
+
+    if not config.has_section('section1'):
+        print('Not exists')
+
+or use iteration:
+
+.. code:: python
+
+    if not 'section1' in config:
+        print('Not exists')
+
 Add new section
 ---------------
 
+Adding a new section or reset exist section:
+
+.. code:: python
+
+    new_section = config.add_section('section1')
+
 Get an section
 --------------
+
+Get non-section area for management of simple configs:
+
+.. code:: python
+
+    non_section = config[None]
+    non_section = config.get_section()
+
+Also you can get an existing section in two different ways:
+
+.. code:: python
+
+    section1 = config['section1']
+    section1 = config.get_section('section1')
+
+
+if section do not exist then raised ``KeyError``
 
 Remove an section
 -----------------
