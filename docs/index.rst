@@ -147,7 +147,7 @@ Management of sections
 Checking if has a section
 -------------------------
 
-For checking existing section you can use method `has_section()`:
+For checking existing section you can use method ``has_section()``:
 
 .. code:: python
 
@@ -187,8 +187,8 @@ Also you can get an existing section in two different ways:
     section1 = config['section1']
     section1 = config.get_section('section1')
 
-
-if section do not exist then raised ``KeyError``
+.. note::
+    if section do not exist then raised ``KeyError``
 
 Remove an section
 -----------------
