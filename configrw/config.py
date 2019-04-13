@@ -1,5 +1,5 @@
 from __future__ import annotations          # forward declaration
-from typing import Optional, Iterator, Dict, Any, Union
+from typing import Optional, Iterable, Dict, Any, Union
 import os
 import re
 import io
@@ -159,7 +159,7 @@ class ConfigSection():
 
         return value
 
-    def to_text(self) -> Iterator[str]:
+    def to_text(self) -> Iterable[str]:
         """The function is generator of output text the section"""
 
         for item in self._items:
@@ -420,7 +420,7 @@ class Config():
         if os.path.isfile(self._filepath + file_suffix):
             os.rename(self._filepath + file_suffix, self._filepath)
 
-    def to_text(self):
+    def to_text(self) -> Iterable[str]:
 
         for line in self._none_section.to_text():
             yield line
