@@ -422,10 +422,8 @@ class Config():
 
     def to_text(self) -> Iterable[str]:
 
-        for line in self._none_section.to_text():
-            yield line
+        yield from self._none_section.to_text()
 
         for section_name, section in self._sections.items():
             yield f"[{section_name}]{section._inline_text or ''}"
-            for line in section.to_text():
-                yield line
+            yield from section.to_text()
