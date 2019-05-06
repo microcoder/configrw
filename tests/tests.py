@@ -14,7 +14,9 @@ class ConfigTests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.config = Config().from_file('tests/config.ini')
+        # TODO: Need tests with check parameters:
+        # cls.config = Config.from_file('tests/config.ini', option_sep=('=', ':'), comment_sep=('#', ';'), remove_extra_lines=False)
+        cls.config = Config.from_file('tests/config.ini')
 
     # You can use next decorators for methods:
     #   @unittest.skip('Temporary skipped')
@@ -214,23 +216,23 @@ class ConfigTests(unittest.TestCase):
 
     def test_08_write_config(self):
 
-        self.config._filepath = None
+        self.config.filepath = None
         with self.assertRaises(AttributeError):
             self.config.write()  # without filepath specified
 
         filepath = tempfile.gettempdir() + '/test_config.ini'
 
-        self.config._filepath = filepath
+        self.config.filepath = filepath
         self.config.write()
 
         self.config.write(filepath)
-        os.unlink(self.config._filepath)
+        os.unlink(self.config.filepath)
 
     def test_09_str_equals(self):
-        self.config = Config().from_file('tests/config.ini')
-        self.config2 = Config().from_file('tests/config.ini')
+        cfg1 = Config.from_file('tests/config.ini')
+        cfg2 = Config.from_file('tests/config.ini')
 
-        self.assertTrue(self.config == self.config2)
+        self.assertTrue(cfg1 == cfg2)
 
     def test_10_hash_equals(self):
 
@@ -238,18 +240,14 @@ class ConfigTests(unittest.TestCase):
         hash2 = None
 
         with open('tests/config.ini', 'r') as f:
-            hash1 = hashlib.sha3_256(f.read().encode()).hexdigest()
+            hash1 = hashlib.sha3_256(f.read().encode('utf-8')).hexdigest()
 
-        self.config = Config().from_file('tests/config.ini')
-        filetmp = tempfile.gettempdir() + '/test_config.ini'
-        with open(filetmp, 'w') as f:
-            for line in self.config.to_text():
-                f.write(line + '\n')
+        config = Config.from_file('tests/config.ini')
+        config_text = ''
+        for line in config.to_text():
+            config_text += line + '\n'
 
-        with open(filetmp, 'r') as f:
-            hash2 = hashlib.sha3_256(f.read().encode()).hexdigest()
-
-        os.unlink(filetmp)
+        hash2 = hashlib.sha3_256(config_text.encode('utf-8')).hexdigest()
 
         # print(hashlib.algorithms_guaranteed)
         # print(hash1)

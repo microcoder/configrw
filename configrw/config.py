@@ -1,5 +1,5 @@
 from __future__ import annotations          # forward declaration
-from typing import Optional, Iterable, Dict, Any, Union
+from typing import Optional, Iterable, Tuple, Dict, Any, Union
 import os
 import re
 import io
@@ -233,23 +233,7 @@ class Config():
         )?$
         """
 
-    def __init__(self, option_sep=('=', ':'), comment_sep=('#', ';'), remove_extra_lines=False,
-                 # inline_comment_sep=(';',),
-                 # remove_extra_spaces=False,
-                 ):
-
-        regexp_option_sep = '|'.join(re.escape(d) for d in option_sep)
-        regexp_comment_sep = '|'.join(re.escape(d) for d in comment_sep)
-
-        # Compiled regular expression for matching sections
-        self._regexp_comment = re.compile(self.REGEXP_COMMENT.format(sep=regexp_comment_sep), re.VERBOSE)
-        self._regexp_section = re.compile(self.REGEXP_SECTION, re.VERBOSE)
-        self._regexp_option = re.compile(self.REGEXP_OPTION.format(sep=regexp_option_sep), re.VERBOSE)
-        # print('compiled _regexp_option:', self._regexp_option.pattern, sep='\n')
-
-        self._remove_extra_lines = remove_extra_lines
-        # self._remove_extra_spaces = remove_extra_spaces
-
+    def __init__(self):
         self._none_section = ConfigSection()
         self._sections = {}
 
@@ -313,22 +297,35 @@ class Config():
 
         return False
 
-    def _load(self, fp):
+    @classmethod
+    def _load(cls, fp,
+              option_sep: Tuple[str, ...] = ('=', ':'),
+              comment_sep: Tuple[str, ...] = ('#', ';'),
+              remove_extra_lines: bool = False) -> 'Config':
 
-        current_section: ConfigSection = self._none_section
+        regexp_option_sep = '|'.join(re.escape(d) for d in option_sep)
+        regexp_comment_sep = '|'.join(re.escape(d) for d in comment_sep)
+
+        # Compiled regular expression for matching sections
+        regexp_comment = re.compile(cls.REGEXP_COMMENT.format(sep=regexp_comment_sep), re.VERBOSE)
+        regexp_section = re.compile(cls.REGEXP_SECTION, re.VERBOSE)
+        regexp_option = re.compile(cls.REGEXP_OPTION.format(sep=regexp_option_sep), re.VERBOSE)
+
+        cfg = cls()
+        current_section: ConfigSection = cfg._none_section
         current_option: Optional[Dict[str, Any]] = None     # Needed for multiple values
 
         for line in fp:
 
             # --------- Parsing sections
-            parsed = self._regexp_section.match(line)
+            parsed = regexp_section.match(line)
             if parsed is not None:
-                current_section = self.add_section(parsed.group('name'), parsed.group('comment'))
+                current_section = cfg.add_section(parsed.group('name'), parsed.group('comment'))
                 current_option = None
                 continue
 
             # --------- Parsing comments line
-            parsed = self._regexp_comment.match(line)
+            parsed = regexp_comment.match(line)
             if parsed is not None:
 
                 parsed_key = parsed.group('comment')
@@ -351,7 +348,7 @@ class Config():
                 continue
 
             # --------- Parsing options
-            parsed = self._regexp_option.match(line)
+            parsed = regexp_option.match(line)
             if parsed is not None:
 
                 parsed_key = parsed.group('key')
@@ -376,7 +373,7 @@ class Config():
                 continue
 
             # --------- Adding empty and unrecognized lines:
-            if not self._remove_extra_lines:
+            if not remove_extra_lines:
                 if current_option is not None and isinstance(current_option['value'], list):
                     current_option['value'].append(line.rstrip('\n'))
                     continue
@@ -384,32 +381,37 @@ class Config():
                 current_section.add_item(line.rstrip('\n'))
                 current_option = None
 
-    def from_file(self, filepath: str) -> 'Config':
-        self._filepath = filepath
+        return cfg
+
+    @classmethod
+    def from_file(cls, filepath: str, **kwargs) -> 'Config':
+        """Reading a configuration from a file"""
 
         with open(filepath, 'r') as fp:
-            self._load(fp)
+            cfg = cls._load(fp, **kwargs)
 
-        return self
+        setattr(cfg, 'filepath', filepath)
 
-    def from_str(self, string: str) -> 'Config':
-        """Read configuration from a given string."""
+        return cfg
+
+    @classmethod
+    def from_str(cls, string: str, **kwargs) -> 'Config':
+        """Reading a configuration from a given string"""
 
         sfile = io.StringIO(string)
-        self._load(sfile)
-
-        return self
+        return cls._load(sfile, **kwargs)
 
     def write(self, filepath: Optional[str] = None):
 
         if filepath is not None:
-            self._filepath = filepath
-        elif not hasattr(self, '_filepath') or self._filepath is None:
+            self.filepath = filepath
+
+        if not hasattr(self, 'filepath') or self.filepath is None:
             raise AttributeError('No filepath specified')
 
         file_suffix = '.new'  # For safe file writing
 
-        with open(self._filepath + file_suffix, 'w') as fp:
+        with open(self.filepath + file_suffix, 'w') as fp:
             for option in self._none_section.to_text():
                 print(option, file=fp)
             for section_name, section in self._sections.items():
@@ -417,8 +419,8 @@ class Config():
                 for option in section.to_text():
                     print(option, file=fp)
 
-        if os.path.isfile(self._filepath + file_suffix):
-            os.rename(self._filepath + file_suffix, self._filepath)
+        if os.path.isfile(self.filepath + file_suffix):
+            os.rename(self.filepath + file_suffix, self.filepath)
 
     def to_text(self) -> Iterable[str]:
 
