@@ -217,7 +217,7 @@ class Config():
         """
 
     REGEXP_SECTION = r"""
-        \[
+        \s*\[
         (?P<name>[^]]+)
         \]
         (?:
