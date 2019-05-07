@@ -14,8 +14,7 @@ class ConfigTests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        # TODO: Need tests with check parameters:
-        # cls.config = Config.from_file('tests/config.ini', option_sep=('=', ':'), comment_sep=('#', ';'), remove_extra_lines=False)
+
         cls.config = Config.from_file('tests/config.ini')
 
     # You can use next decorators for methods:
@@ -255,10 +254,28 @@ class ConfigTests(unittest.TestCase):
 
         self.assertEqual(hash1, hash2)
 
-    def test_11_user_manual(self):
+    def test_11_check_parameters(self):
+
+        # remove_extra_lines=False
+
+        config_text = """
+        [section1]
+           // This is comment
+           opt1 % 100
+           
+           opt2 % 200
+           opt3 = 300
+        """
+        config = Config.from_str(config_text, option_sep=('%'), comment_sep=('//'), remove_extra_lines=True)
+
+        self.assertEqual(config['section1']['opt1'], 100)
+        self.assertEqual(config['section1']['opt3 = 300'], None)
+        self.assertEqual(len(config['section1']), 4)
+
+    def test_12_user_manual(self):
 
         config = Config()
-        section1 = config.add_section('section1', inline_text=' # this is comment')
+        section1 = config.add_section('section1', text_after=' # this is comment')
         section1['option1'] = 'value1'
         section1['option_without_value'] = None
         section1.set_option('option2', 200)
