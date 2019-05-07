@@ -90,7 +90,7 @@ config['section3']['extensions'][0] = 'extension0'  # Changing single value of m
 
 config.write('/path/to/file')               # Saving config to file
 
-# to output config on screen
+# Render config to screen
 for line in config.to_text():
     print(line)
 ```
