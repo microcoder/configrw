@@ -10,14 +10,16 @@ class ConfigSection():
     DEFAULT_OPT_SEPARATOR = ' = '
 
     def __init__(self,
-                 inline_text: Optional[str] = None,
+                 text_before: Optional[str] = None,
+                 text_after: Optional[str] = None,
                  default_opt_separator: str = DEFAULT_OPT_SEPARATOR,
                  convert_values: bool = True
                  ):
-        self._inline_text: Optional[str] = inline_text
-        self._items: list = []
-        self.DEFAULT_OPT_SEPARATOR = default_opt_separator
         self._allowed_types_value = (str, type(None), int, float, list)
+        self._items: list = []
+        self._text_before = text_before
+        self._text_after = text_after
+        self.DEFAULT_OPT_SEPARATOR = default_opt_separator
         self._convert_values = convert_values
 
     def __getitem__(self, key: Union[str, int]) -> Any:
@@ -217,11 +219,14 @@ class Config():
         """
 
     REGEXP_SECTION = r"""
-        \s*\[
+        (?:
+            (?P<text_before>.*)
+        )?
+        \[
         (?P<name>[^]]+)
         \]
         (?:
-            (?P<comment>.*)
+            (?P<text_after>.*)
         )?$
         """
 
@@ -281,9 +286,11 @@ class Config():
 
         raise KeyError(f'Section "{name}" not exists')
 
-    def add_section(self, name, inline_text=None) -> ConfigSection:
+    def add_section(self, name: str,
+                    text_before: Optional[str] = None,
+                    text_after: Optional[str] = None) -> ConfigSection:
 
-        self._sections[name] = ConfigSection(inline_text)
+        self._sections[name] = ConfigSection(text_before, text_after)
 
         return self._sections[name]
 
@@ -320,7 +327,7 @@ class Config():
             # --------- Parsing sections
             parsed = regexp_section.match(line)
             if parsed is not None:
-                current_section = cfg.add_section(parsed.group('name'), parsed.group('comment'))
+                current_section = cfg.add_section(parsed.group('name'), parsed.group('text_before'), parsed.group('text_after'))
                 current_option = None
                 continue
 
@@ -427,5 +434,5 @@ class Config():
         yield from self._none_section.to_text()
 
         for section_name, section in self._sections.items():
-            yield f"[{section_name}]{section._inline_text or ''}"
+            yield f"{section._text_before or ''}[{section_name}]{section._text_after or ''}"
             yield from section.to_text()
