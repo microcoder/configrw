@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>4. Management of sections &mdash; configrw 1.0.0 documentation</title>
+  <title>4. Management of sections &mdash; configrw 1.1.0 documentation</title>
   
 
   
@@ -177,6 +177,10 @@
 <h2>4.2. Add new section<a class="headerlink" href="#add-new-section" title="Permalink to this headline">¶</a></h2>
 <p>Adding a new section or reset exist section:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">new_section</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">add_section</span><span class="p">(</span><span class="s1">&#39;section1&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Also, you can add new section with a leading spaces or add comment after section name:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">new_section</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">add_section</span><span class="p">(</span><span class="s1">&#39;section1&#39;</span><span class="p">,</span> <span class="n">text_before</span><span class="o">=</span><span class="s1">&#39;   &#39;</span><span class="p">,</span> <span class="n">text_after</span><span class="o">=</span><span class="s1">&#39; # This is comment&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

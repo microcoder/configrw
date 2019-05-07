@@ -9,13 +9,14 @@ You can load configuration from file:
 
     from configrw import Config
 
-    config = Config().from_file('./path/to/file')
+
+    config = Config.from_file('./path/to/file')
 
 or load config from string:
 
 .. code:: python
 
-    config = Config().from_str("""
+    config = Config.from_str("""
     [section1]
     option1 = 100
     option2 = 200

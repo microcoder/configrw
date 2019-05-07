@@ -39,7 +39,7 @@ This is features needed if you want use simple key-value of config file
 
     from configrw import Config
 
-    config = Config().from_file('./path/to/file')
+    config = Config.from_file('/path/to/file')
 
     section = config[None]             # Getting non-section
     value = section['this is option']  # Getting the value
@@ -61,9 +61,9 @@ This is features needed if you want use INI config file
     config['section3']['extensions'].insert('ext0', 0)  # Inserting new value
     config['section3']['extensions'][0] = 'extension0'  # Changing single value of multiple values
 
-    config.write('./path/to/file')              # Saving config to file
+    config.write('/path/to/file')              # Saving config to file
 
-    # to output config on screen
+    # Render config to screen
     for line in config.to_text():
         print(line)
 

@@ -13,8 +13,8 @@ Output:
 
     [
         {'key': 'global_parameter', 'sep': ' = ', 'value': 1}
-    ], 
-    {'section1': 
+    ],
+    {'section1':
         [
             {'key': '    option0', 'sep': ' = ', 'value': 0},
             {'key': '    option_without_value', 'sep': None, 'value': None},

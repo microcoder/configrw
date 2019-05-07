@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>3. Load config &mdash; configrw 1.0.0 documentation</title>
+  <title>3. Load config &mdash; configrw 1.1.0 documentation</title>
   
 
   
@@ -157,11 +157,12 @@
 <p>You can load configuration from file:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configrw</span> <span class="kn">import</span> <span class="n">Config</span>
 
-<span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="s1">&#39;./path/to/file&#39;</span><span class="p">)</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="s1">&#39;./path/to/file&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>or load config from string:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">from_str</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="o">.</span><span class="n">from_str</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">[section1]</span>
 <span class="s2">option1 = 100</span>
 <span class="s2">option2 = 200</span>

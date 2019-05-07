@@ -5,9 +5,9 @@ Write data to a file
 
 .. code:: python
 
-    config.write('path/to/file')
+    config.write('/path/to/file')
 
-Else if file was opened, then method ``write()`` can be call without parameter:
+If file was opened, then method ``write()`` can be just call without a parameter:
 
 .. code:: python
 

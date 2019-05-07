@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>5. Management of items of section &mdash; configrw 1.0.0 documentation</title>
+  <title>5. Management of items of section &mdash; configrw 1.1.0 documentation</title>
   
 
   
@@ -164,7 +164,7 @@
 <span id="items-doc"></span><h1>5. Management of items of section<a class="headerlink" href="#management-of-items-of-section" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="set-or-add-new-an-option">
 <h2>5.1. Set or add new an option<a class="headerlink" href="#set-or-add-new-an-option" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">section1</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">add_section</span><span class="p">(</span><span class="s1">&#39;section1&#39;</span><span class="p">,</span> <span class="n">inline_text</span><span class="o">=</span><span class="s1">&#39; # this is comment&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">section1</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">add_section</span><span class="p">(</span><span class="s1">&#39;section1&#39;</span><span class="p">,</span> <span class="n">text_after</span><span class="o">=</span><span class="s1">&#39; # this is comment&#39;</span><span class="p">)</span>
 
 <span class="n">section1</span><span class="p">[</span><span class="s1">&#39;option1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;value1&#39;</span>
 <span class="n">section1</span><span class="p">[</span><span class="s1">&#39;option_without_value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>

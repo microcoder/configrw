@@ -29,6 +29,12 @@ Adding a new section or reset exist section:
 
     new_section = config.add_section('section1')
 
+Also, you can add new section with a leading spaces or add comment after section name:
+
+.. code:: python
+
+    new_section = config.add_section('section1', text_before='   ', text_after=' # This is comment')
+
 Get an section
 --------------
 

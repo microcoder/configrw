@@ -8,7 +8,7 @@ Set or add new an option
 
 .. code:: python
 
-    section1 = config.add_section('section1', inline_text=' # this is comment')
+    section1 = config.add_section('section1', text_after=' # this is comment')
 
     section1['option1'] = 'value1'
     section1['option_without_value'] = None
