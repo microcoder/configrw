@@ -262,7 +262,7 @@ class ConfigTests(unittest.TestCase):
         [section1]
            // This is comment
            opt1 % 100
-           
+
            opt2 % 200
            opt3 = 300
         """
