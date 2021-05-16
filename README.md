@@ -37,7 +37,7 @@ In next examples we will use the following INI file:
 
 ```ini
 # This is comment
-this is option = this is value
+some option = some value
 second option  = -100
 
 [ SECTION1 ] # comment
@@ -70,9 +70,9 @@ from configrw import Config
 config = Config.from_file('/path/to/file')
 
 section = config[None]             # Getting non-section
-value = section['this is option']  # Getting the value
-section['this is option'] = None   # Setting the value
-del section['second option']       # Deleting the option
+value = section['some option']     # Getting the value
+section['some option'] = 100       # Setting the value
+del section['some option']         # Deleting the option
 ```
 
 ### Access to section area
@@ -99,7 +99,7 @@ INI-file after changes:
 
 ```ini
 # This is comment
-this is option
+some option
 
 [ SECTION1 ] # comment
     option1 = 100
